@@ -1,0 +1,90 @@
+﻿@model CrudApplication.Models.Customer
+@{
+}
+
+<h1>Update Your Details</h1>
+<div class="row">
+
+    <div class="col-6 offset-3">
+
+        <form asp-action="Update" asp-controller="Customer" method="post">
+
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" />
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter your Name" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter your Email" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Mobile_No"> </label>
+                <input asp-for="Mobile_No" class="form-control" placeholder="Enter your Mobile" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" placeholder="Enter your Address" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label">Select State</label>
+                <select asp-for="StateId" id="stateid" class="form-control state"><option>Select</option></select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label">Select City</label>
+                <select asp-for="CityId" id="cityid" class="form-control city"><option>Select</option></select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="Submit" class="btn btn-warning">Update</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        getStates();
+    $("#stateid").change(function () {
+
+            var id = $("#stateid").val();
+
+    $("#cityid").empty();
+
+    $("#cityid").append("<option>Select</option>")
+
+    getCities(id);
+        })
+    })
+    function getStates() {
+
+        $.get('@Url.Action("GetStates","Customer")', function (result) {
+
+            $.each(result, function (index, item) {
+
+                // console.log(item)
+                $("#stateid").append("<option value=" + item.stateId + ">" + item.stateName + "</option>")
+            })
+        })
+    }
+
+    function getCities(stateid) {
+
+        $.get('@Url.Action("GetCity", "Customer")', { id: stateid }, function (result) {
+
+            $.each(result, function (index, item) {
+
+                //console.log(item)
+                $("#cityid").append("<option value=" + item.cityId + ">" + item.cityName + "</option>")
+            })
+        })
+    }
+</script>
