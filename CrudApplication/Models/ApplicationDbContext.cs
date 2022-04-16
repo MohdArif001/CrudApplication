@@ -12,5 +12,6 @@ namespace CrudApplication.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
